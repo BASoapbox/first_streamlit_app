@@ -9,3 +9,5 @@ streamlit.text('🐔 Hard-Broiled Free-Range Egg')
 streamlit.text('🥑🍞 Avocado Toast')
 
 streamlit.header('🍌🥭 Build Your Own Fruit Smoothie 🥝🍇')
+
+streamlit.text('Testing using Git in VS Code')
