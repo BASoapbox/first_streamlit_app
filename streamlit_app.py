@@ -11,8 +11,8 @@ streamlit.text('🥑🍞 Avocado Toast')
 
 streamlit.header('🍌🥭 Build Your Own Fruit Smoothie 🥝🍇')
 
-// pulling the data into a pandas dataframe called my_fruit_list
+# pulling the data into a pandas dataframe called my_fruit_list
 my_fruit_list = pandas.read_csv("https://uni-lab-files.s3.us-west-2.amazonaws.com/dabw/fruit_macros.txt")
 
-// asking streamlit library to display it on the page
+# asking streamlit library to display it on the page
 streamlit.dataframe(my_fruit_list)
