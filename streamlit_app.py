@@ -56,7 +56,8 @@ streamlit.dataframe(fruits_to_show)
 streamlit.header ('Fruityvice Fruit Advice!')
 
 # API call and assigning response to a variable
-fruityvice_response = requests.get("https://fruityvice.com/api/fruit/watermelon")
+# fruityvice_response = requests.get("https://fruityvice.com/api/fruit/watermelon")
+fruityvice_response = requests.get("https://fruityvice.com/api/fruit/" + "kiwi")
 
 # Display response in Json format
 streamlit.text(fruityvice_response.json())
@@ -66,5 +67,5 @@ streamlit.text(fruityvice_response.json())
 # Use Pandas to normalize Json respomse
 fruityvice_normalized = pandas.json_normalize(fruityvice_response.json())
 
-# asking streamlit library to display it on the page as DataFrame
+# asking streamlit library to display it on the page as DataFrame/table
 streamlit.dataframe(fruityvice_normalized)
