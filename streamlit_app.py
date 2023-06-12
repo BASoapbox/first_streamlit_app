@@ -2,6 +2,7 @@ import streamlit
 import pandas
 import requests
 import snowflake.connector
+from urllib.error import URLError
 
 
 streamlit.title('My Parents New Healthy Diner')
@@ -18,9 +19,6 @@ streamlit.header('🍌🥭 Build Your Own Fruit Smoothie 🥝🍇')
 my_fruit_list = pandas.read_csv("https://uni-lab-files.s3.us-west-2.amazonaws.com/dabw/fruit_macros.txt")
 
 # # We'll add a user interactive widget called a Multi-select that will allow users to pick the fruits they want in their smoothies.
-# # Let's put a pick list here so they can pick the fruit they want to include 
-# streamlit.multiselect("Pick some fruits 1:", list(my_fruit_list.index))
-# streamlit.multiselect("Pick some fruits 2:", list(my_fruit_list.Fruit))
 
 # Choose the Fruit Name Column as the Index
 my_fruit_list = my_fruit_list.set_index('Fruit')
@@ -47,49 +45,29 @@ fruits_to_show = my_fruit_list.loc[fruit_selected]
 streamlit.dataframe(fruits_to_show)
 
 
-#  Call the Fruityvice API from Streamlit App!
-
-# # Testing API call
-# fruityvice_response = requests.get("https://fruityvice.com/api/fruit/watermelon")
-# streamlit.text(fruityvice_response)
-
+### Call the Fruityvice API from Streamlit App!
 ### New Section to display fruityvice api response
 
-streamlit.header ('Fruityvice Fruit Advice!')
+streamlit.header('Fruityvice Fruit Advice!')
+
+## Add a Text Entry Box and Send the Input to Fruityvice as Part of the API Call
+fruit_choice = streamlit.text_input('What fruit would you like information about?', 'kiwi')
 
 # API call and assigning response to a variable
-# fruityvice_response = requests.get("https://fruityvice.com/api/fruit/watermelon")
-fruityvice_response = requests.get("https://fruityvice.com/api/fruit/" + "kiwi")
-
-# Display response in Json format
-streamlit.text(fruityvice_response.json())
-
-## Let's Get the Fruityvice Data Looking a Little Nicer
+fruityvice_response = requests.get("https://fruityvice.com/api/fruit/" + fruit_choice)
 
 # Use Pandas to normalize Json respomse
 fruityvice_normalized = pandas.json_normalize(fruityvice_response.json())
+
+streamlit.write('The user entered:', fruit_choice)
 
 # asking streamlit library to display it on the page as DataFrame/table
 streamlit.dataframe(fruityvice_normalized)
 
 
-## Add a Text Entry Box and Send the Input to Fruityvice as Part of the API Call
-fruit_choice = streamlit.text_input('What fruit would you like information about?', 'kiwi')
-fruityvice_response2 = requests.get("https://fruityvice.com/api/fruit/" + fruit_choice)
-fruityvice_normalized2 = pandas.json_normalize(fruityvice_response2.json())
-
-streamlit.write('The user entered:', fruit_choice)
-streamlit.dataframe(fruityvice_normalized2)
-
-
-# Let's Query Our Trial Account Metadata 
-my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
-my_cur = my_cnx.cursor()
-my_cur.execute("SELECT CURRENT_USER(), CURRENT_ACCOUNT(), CURRENT_REGION()")
-my_data_row = my_cur.fetchone()
-streamlit.text("Hello from Snowflake:")
-streamlit.text(my_data_row)
-
+# Add a STOP Command to Focus Our Attention
+# don't run anything past here while we troubleshoot
+streamlit.stop()
 
 # Let's Query Some Data, Instead
 my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
