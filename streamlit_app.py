@@ -69,19 +69,6 @@ streamlit.text(fruityvice_response.json())
 # Use Pandas to normalize Json respomse
 fruityvice_normalized = pandas.json_normalize(fruityvice_response.json())
 
-my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
-my_cur = my_cnx.cursor()
-my_cur.execute("SELECT CURRENT_USER(), CURRENT_ACCOUNT(), CURRENT_REGION()")
-my_data_row = my_cur.fetchone()
-streamlit.text("Hello from Snowflake:")
-streamlit.text(my_data_row)
-
-
-
-
-
-
-
 # asking streamlit library to display it on the page as DataFrame/table
 streamlit.dataframe(fruityvice_normalized)
 
@@ -93,3 +80,12 @@ fruityvice_normalized2 = pandas.json_normalize(fruityvice_response2.json())
 
 streamlit.write('The user entered:', fruit_choice)
 streamlit.dataframe(fruityvice_normalized2)
+
+my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
+my_cur = my_cnx.cursor()
+my_cur.execute("SELECT CURRENT_USER(), CURRENT_ACCOUNT(), CURRENT_REGION()")
+my_data_row = my_cur.fetchone()
+streamlit.text("Hello from Snowflake:")
+streamlit.text(my_data_row)
+
+
