@@ -115,5 +115,9 @@ streamlit.dataframe(my_data_rows)
                                                      
 # Allow the use to add a fruit to the list
 add_my_fruit = streamlit.text_input('What fruit would you like to?', 'jackfruit')
+streamlit.write('Thanks for adding ', add_my_fruit)
 
-streamlit.text("Thanks for adding " + add_my_fruit)
+# Write Code to Add Rows to Our Fruit List in Snowflake
+
+#This will not work correctly, but just go with it for now
+my_cur.execute("insert into fruit_load_list values ('from streamlit')")
